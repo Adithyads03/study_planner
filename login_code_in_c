@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <string.h>
+int validateLogin(char username[], char password[]) 
+{
+    if (strcmp(username, "admin") == 0 && strcmp(password, "password") == 0)
+ {
+        return 1; 
+    } 
+else 
+{
+        return 0; 
+    }
+}
+int main() {
+    char username[50], password[50];
+    int attempts = 3; // Maximum number of login attempts
+
+    printf("Welcome to Study Planner App\n");
+
+    while (attempts > 0) {
+        printf("Please enter your username: ");
+        scanf("%s", username);
+        printf("Please enter your password: ");
+        scanf("%s", password);
+
+        if (validateLogin(username, password)) {
+            printf("Login successful! Welcome, %s\n", username);
+            // Add code for home page
+            break; 
+        } else {
+            printf("Invalid username or password. Please try again.\n");
+            attempts--;
+            printf("Attempts remaining: %d\n", attempts);
+        }
+    }
+    if (attempts == 0) {
+        printf("Maximum login attempts reached. Please try again later.\n");
+    }
+    return 0;
+}
