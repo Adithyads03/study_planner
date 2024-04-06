@@ -1,0 +1,61 @@
+#include <stdio.h>
+
+#define MAX_SUBJECTS 10 
+struct Subject {
+    char name[50];
+    int marks;
+    int totalMarks;
+};
+
+int main() {
+    int numSubjects;
+    struct Subject subjects[MAX_SUBJECTS];
+    printf("Enter the total number of subjects (max %d): ", MAX_SUBJECTS);
+    scanf("%d", &numSubjects);
+
+    if (numSubjects > MAX_SUBJECTS || numSubjects <= 0) {
+        printf("Invalid number of subjects.\n");
+        return 1; 
+    }
+
+    // Input subject details
+    for (int i = 0; i < numSubjects; i++) {
+        printf("\nEnter details for subject %d:\n", i + 1);
+        printf("Subject name: ");
+        scanf("%s", subjects[i].name);
+        printf("Marks obtained: ");
+        scanf("%d", &subjects[i].marks);
+        printf("Total marks: ");
+        scanf("%d", &subjects[i].totalMarks);
+    }
+    printf("\nEntered subject details:\n");
+    for (int i = 0; i < numSubjects; i++) {
+        printf("Subject %d: %s\n", i + 1, subjects[i].name);
+        printf("Marks obtained: %d\n", subjects[i].marks);
+        printf("Total marks: %d\n", subjects[i].totalMarks);
+    }
+    int choice;
+    printf("\nDo you want to update the marks? (1: Yes, 0: No): ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        int subjectIndex;
+        printf("Enter the subject number to update marks: ");
+        scanf("%d", &subjectIndex);
+
+        if (subjectIndex < 1 || subjectIndex > numSubjects) {
+            printf("Invalid subject number.\n");
+            return 1; 
+        }
+
+        printf("Enter new marks obtained for subject %d: ", subjectIndex);
+        scanf("%d", &subjects[subjectIndex - 1].marks);
+
+        printf("\nUpdated subject details:\n");
+        printf("Subject %d: %s\n", subjectIndex, subjects[subjectIndex - 1].name);
+        printf("Updated marks obtained: %d\n", subjects[subjectIndex - 1].marks);
+        printf("Total marks: %d\n", subjects[subjectIndex - 1].totalMarks);
+    }
+
+    return 0;
+}
