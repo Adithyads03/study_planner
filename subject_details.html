@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        label {
+            margin-bottom: 6px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        button {
+            width: 150px;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .subject-details {
+            display: none;
+        }
+        .subject-container {
+            margin-bottom: 30px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+        }
+        .subject-container h3 {
+            margin-top: 0;
+        }
+        .subject-info {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Study Planner App</h2>
+        <form id="totalSubjectsForm">
+            <label for="totalSubjects">Enter Total Number of Subjects:</label>
+            <input type="number" id="totalSubjects" name="totalSubjects" required>
+            <button type="button" onclick="enterSubjects()">Next</button>
+        </form>
+
+        <div class="subject-details" id="subjectDetailsSection">
+            <h2>Enter Subject Details</h2>
+            <form id="marksForm">
+                <label for="subject">Subject:</label>
+                <input type="text" id="subject" name="subject" required>
+
+                <label for="syllabus">Syllabus:</label>
+                <textarea id="syllabus" name="syllabus" rows="4"></textarea>
+
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" rows="4"></textarea>
+
+                <label for="classes">Classes:</label>
+                <input type="text" id="classes" name="classes">
+
+                <button type="button" onclick="addSubject()">Add Subject</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="subjectList" style="display:none;"></div>
+
+    <script>
+        var subjects = [];
+
+        function enterSubjects() {
+            var totalSubjects = parseInt(document.getElementById('totalSubjects').value);
+            if (!isNaN(totalSubjects) && totalSubjects > 0) {
+                document.getElementById('totalSubjectsForm').style.display = 'none';
+                document.getElementById('subjectDetailsSection').style.display = 'block';
+                document.getElementById('totalSubjects').value = '';
+            } else {
+                alert('Please enter a valid number of subjects.');
+            }
+        }
+
+        function addSubject() {
+            var subject = document.getElementById('subject').value;
+            var syllabus = document.getElementById('syllabus').value;
+            var notes = document.getElementById('notes').value;
+            var classes = document.getElementById('classes').value;
+
+            if (subject) {
+                var subjectObj = {
+                    subject: subject,
+                    syllabus: syllabus,
+                    notes: notes,
+                    classes: classes
+                };
+                subjects.push(subjectObj);
+
+                // Display subjects list
+                displaySubjects();
+
+                // Clear form fields
+                document.getElementById('subject').value = '';
+                document.getElementById('syllabus').value = '';
+                document.getElementById('notes').value = '';
+                document.getElementById('classes').value = '';
+
+                alert('Subject added successfully!');
+            } else {
+                alert('Please enter a subject name.');
+            }
+        }
+
+        function displaySubjects() {
+            var subjectListDiv = document.getElementById('subjectList');
+            subjectListDiv.innerHTML = '';
+            
+            subjects.forEach(function(subjectObj) {
+                var subjectContainer = document.createElement('div');
+                subjectContainer.classList.add('subject-container');
+
+                var heading = document.createElement('h3');
+                heading.textContent = subjectObj.subject;
+                subjectContainer.appendChild(heading);
+
+                var syllabusPara = document.createElement('p');
+                syllabusPara.classList.add('subject-info');
+                syllabusPara.textContent = 'Syllabus: ' + subjectObj.syllabus;
+                subjectContainer.appendChild(syllabusPara);
+
+                var notesPara = document.createElement('p');
+                notesPara.classList.add('subject-info');
+                notesPara.textContent = 'Notes: ' + subjectObj.notes;
+                subjectContainer.appendChild(notesPara);
+
+                var classesPara = document.createElement('p');
+                classesPara.classList.add('subject-info');
+                classesPara.textContent = 'Classes: ' + subjectObj.classes;
+                subjectContainer.appendChild(classesPara);
+
+                subjectListDiv.appendChild(subjectContainer);
+            });
+
+            subjectListDiv.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
